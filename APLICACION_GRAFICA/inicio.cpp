@@ -2,12 +2,15 @@
 #include "./ui_inicio.h"
 #include "registrar.h"
 #include "login.h"
+#include <string>
+#include <sqlite3.h>
 
 Inicio::Inicio(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Inicio)
 {
     ui->setupUi(this);
+
 }
 
 Inicio::~Inicio()

@@ -21,74 +21,88 @@ Registrar::~Registrar()
     delete ui;
 }
 
-
-void Registrar::on_buttonBox_accepted(){
-
-//GUARDADO DE LOS DATOS PROPORCIONADOS EN LAS VARIBALES ESPECÍFICAS DE LA CLASE
-    _nom = ui->lineEdit_NOMBRE->text();
-    _apell = ui->lineEdit_APELLIDO->text();
-    _docu = ui->lineEdit_DOCUMENT->text().toInt();
-    _fech = ui->lineEdit_FECHA->text();
-    _usu = ui->lineEdit_USUAR->text();
-    _contra = ui->lineEdit_CONTRA->text();
+//void Registrar::GuardarDatos(){
+//
+//}
 
 
-//CONVERSION DE LOS DATOS A STRING PARA PROCESARLOS CORRECTAMENTE
-    string nom_str = _nom.toStdString();
-    string apell_str = _apell.toStdString();
-    string fech_str = _fech.toStdString();
-    string usu_str = _usu.toStdString();
-    string contra_str = _contra.toStdString();
+bool Registrar::Abrir_BaseDato(string path){
+    _URL=path;
+    char* zErrMsg;
 
-    int docu = _docu;
+    int rc = sqlite3_open( _URL.c_str(), &_BD );
 
-
-//ABRIENDO BASE DE DATOS PARA HACER EL ENVÍO
-    sqlite3 *db;
-    int rc;
-    char* zErrMsg = 0;
-    string sqlstr;
-
-    rc = sqlite3_open( "SKYNET.db", &db );
-
-    if( rc ){
-        fprintf( stderr, "NO SE PUDO ABRIR LA BASE DE DATOS : %s\n", sqlite3_errmsg( db ) );
-
-    }else{
+    if ( rc != 0 ){
+        fprintf( stderr, "NO SE PUDO ABRIR LA BASE DE DATOS: %s\n", sqlite3_errmsg(_BD) );
+        return (false);
+    } else{
         fprintf( stderr, "BASE DE DATOS ABIERTA" );
     }
 
+    string sqlstr = "CREATE TABLE  IF NOT EXISTS DATOS_USUARIOS(id_usuario INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"\
+             "nombre TEXT, apellido TEXT, documento INTEGER, fecha_nacimiento TEXT, usuario TEXT,"\
+             "contraseña TEXT );";
 
-//CREANDO TABLA
-    sqlstr = "CREATE TABLE  IF NOT EXISTS DATOS_USUARIOS(id_usuario INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"\
-             "nombre TEXT NOT NULL,"\
-             "apellido TEXT NOT NULL, documento INTEGER NOT NULL,"\
-             "fecha_nacimiento TEXT NOT NULL, usuario TEXT NOT NULL,"\
-             "contraseña TEXT NOT NULL);";
-
-    rc = sqlite3_exec( db, sqlstr.c_str(), 0, 0, &zErrMsg );
+    rc = sqlite3_exec( _BD, sqlstr.c_str(), 0, 0, &zErrMsg );
 
     if ( rc != SQLITE_OK ){
         fprintf( stderr, "SQL ERROR: %s\n", zErrMsg );
+        sqlite3_free( zErrMsg );
+        return (false);
     } else {
         fprintf( stdout, "TABLA CREADA\n");
     }
+    return true;
+}
 
-//ENVÍO DE DATOS
-    std::stringstream sqlsentence;
 
-    sqlsentence << "INSERT INTO DATOS_USUARIOS (nombre, apellido, documento, fecha_nacimiento, usuario, contraseña) VALUES (";
-    sqlsentence << nom_str << ", " << apell_str << ", " << docu << ", " << fech_str << ", " << usu_str << ", " << contra_str << ");" ;
+bool Registrar::Cerrar_BaseDato(){
+    int rc = sqlite3_close( _BD );
 
-    rc = sqlite3_exec( db, sqlsentence.str().c_str(), 0, 0, &zErrMsg );
+    if( rc != SQLITE_OK )
+        return (false);
+
+    return true;
+}
+
+
+
+void Registrar::on_buttonBox_accepted(){
+
+    //GuardarDatos();
+
+    //GUARDADO DE LOS DATOS PROPORCIONADOS EN LAS VARIBALES ESPECÍFICAS DE LA CLASE
+        _nom = ui->lineEdit_NOMBRE->text();
+        _apell = ui->lineEdit_APELLIDO->text();
+        _docu = ui->lineEdit_DOCUMENT->text().toInt();
+        _fech = ui->lineEdit_FECHA->text();
+        _usu = ui->lineEdit_USUAR->text();
+        _contra = ui->lineEdit_CONTRA->text();
+
+     int rc;
+     char* zErrMsg;
+
+
+    Abrir_BaseDato("/home/maquinirris/Documents/ALSE_2120/PROYECTO_FINAL_ALSE-2021-2/SKYNET.db");
+
+    //ENVÍO DE DATOS
+    std::string sqlsentence;
+
+    sqlsentence = "INSERT INTO DATOS_USUARIOS (nombre, apellido, documento, fecha_nacimiento, usuario, contraseña) "
+                  "VALUES ('"+_nom.toStdString()+"', '"+_apell.toStdString()+"', "+std::to_string(_docu)+", '"+_fech.toStdString()+"', '"+_usu.toStdString()+"', '"+_contra.toStdString()+"' );";
+
+
+    rc = sqlite3_exec( _BD, sqlsentence.c_str(), 0, 0, &zErrMsg );
 
     if( rc != SQLITE_OK ){
-       fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        fprintf(stderr, "SQL error: %s\n", zErrMsg);
 
     } else {
-       fprintf(stdout, "Records created successfully\n");
+        fprintf(stdout, "Records created successfully\n");
     }
 
-sqlite3_close(db);
+     Cerrar_BaseDato();
+
+
 
 }

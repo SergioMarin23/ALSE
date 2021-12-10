@@ -69,13 +69,11 @@ bool Registrar::Cerrar_BaseDato(){
 
 void Registrar::on_buttonBox_accepted(){
 
-    //GuardarDatos();
-
     //GUARDADO DE LOS DATOS PROPORCIONADOS EN LAS VARIBALES ESPECÍFICAS DE LA CLASE
         _nom = ui->lineEdit_NOMBRE->text();
         _apell = ui->lineEdit_APELLIDO->text();
-        _docu = ui->lineEdit_DOCUMENT->text().toInt();
-        _fech = ui->lineEdit_FECHA->text();
+        _docu = ui->lineEdit_DOCUMENT->text().toInt();          //EN ESTE BUTTONBOX SE ENVÍA A LA BASE DE DATOS LA INFORMACIÓN PARA
+        _fech = ui->lineEdit_FECHA->text();                     //REGISTRAR EL USUARIO.
         _usu = ui->lineEdit_USUAR->text();
         _contra = ui->lineEdit_CONTRA->text();
 

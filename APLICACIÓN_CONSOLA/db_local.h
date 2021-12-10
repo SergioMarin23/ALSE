@@ -18,7 +18,7 @@ public:
                       int min_dir_vient, float prom_dir_vient, int max_dir_vient,
                       float min_preci, float prom_preci, float max_preci,
                       float min_inten, float prom_inten, float max_inten);
-    float RecuperarTemperatura();
+    float RecuperarTemperatura();               //FUNCIÓN QUE RECUPERA LOS DATOS DE LA TEMPERATURA PARA HACER LAS ALERTAS
 
 
 private:

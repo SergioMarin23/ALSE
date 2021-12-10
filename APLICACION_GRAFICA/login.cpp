@@ -62,8 +62,8 @@ bool Login::Cerrar_BaseDato(){
 }
 
 void Login::on_buttonBox_accepted(){
-//SE GUARDAN LOS DATOS EN LAS VARIABLES ESPECÍFICA DE LA CLASE
-    _usu_log = ui->line_USU_LOG->text();
+//SE GUARDAN LOS DATOS EN LAS VARIABLES ESPECÍFICA DE LA CLASE         //EN ESTA PARTE DEL BUTTONBOX_ACCEPTED SE ENVÍAN A LA BASE DE DATOS
+    _usu_log = ui->line_USU_LOG->text();                               //LA INFORMACIÓN INGRESADA POR EL USUARIO.
     _contra_log = ui->line_CONTRA_LOG->text();
 
     int rc;
@@ -95,45 +95,4 @@ void Login::on_buttonBox_accepted(){
     Cerrar_BaseDato();
 
 
-
-//VALIDACIÓN DE DATOS
-//   //Abrir_BaseDato("/home/maquinirris/Documents/ALSE_2120/PROYECTO_FINAL_ALSE-2021-2/SKYNET.db");
-
-//    string tmp[1]={0} ;
-
-//    std::stringstream sql;
-//    sql << "SELECT usuario FROM USUARIOS_REGISTRADOS WHERE usuario = :_usu_log;";
-
-//    rc = sqlite3_exec( _BD, sql.str().c_str(), callback, (void*)&tmp, &zErrMsg );
-
-//    if( rc != SQLITE_OK ){
-//       fprintf(stderr, "SQL error: %s\n", zErrMsg);
-
-//    } else {
-//       fprintf(stdout, "Records created successfully\n");
-//    }
-
-
-//        if( _usu_log.toStdString() == tmp[0] ){
-//            Alertas alert;
-//            alert.setModal( true );
-//            alert.show();
-//            alert.exec();
-//        }else{
-//            fprintf( stderr, "USUARIO NO ENCONTRADO %s\n", zErrMsg);
-//        }
-
-//    Cerrar_BaseDato();
-
-    //cout << "Bienvenido, usuario: " << usu_log_str << endl;
-
-}
-
-int Login::callback(void *data, int argc, char **argv, char **campos){
-    string *ttemp = (string*)data;
-
-    for(int i = 0; i < argc ; i++)
-        ttemp[i] = argv[i];
-
-    return 0;
 }

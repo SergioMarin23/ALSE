@@ -16,10 +16,9 @@ class Registrar : public QDialog
 public:
     explicit Registrar(QWidget *parent = nullptr);
     ~Registrar();
-    //void GuardarDatos();
     bool Abrir_BaseDato(std::string path);               //FUNCIÓN PARA ABRIR LA BASE DE DATOS LOCAL.
-    bool Cerrar_BaseDato();
-    //bool InsertarDatos();
+    bool Cerrar_BaseDato();                              //FUNCIÓN PARA CERRAR LA BASE DE DATOS.
+
 private slots:
     void on_buttonBox_accepted();
 

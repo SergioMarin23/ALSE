@@ -89,8 +89,8 @@ void Alertas::on_line_TEMP_textEdited(const QString &arg1){
     char* zErrMsg;
     double tmp[1] = {0.};
 
-    std::string sql;
-
+    std::string sql;                                                           //EN CADA UNO DE LOS LINE EDIT SE ESTÁ HACIENDO UN SELECT
+                                                                               //Y UTILIZANDO UNA FUNCIÓN CALLBACK PARA MOSTRAR LOS DATOS
     sql = "SELECT prom_temp FROM PROM_MAX_MIN;";
 
     rc = sqlite3_exec( _BD, sql.c_str(), callback, (void*)&tmp, &zErrMsg );

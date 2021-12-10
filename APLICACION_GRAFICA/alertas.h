@@ -18,7 +18,7 @@ public:
     ~Alertas();
     bool Abrir_BaseDato(std::string path);               //FUNCIÓN PARA ABRIR LA BASE DE DATOS LOCAL.
     bool Cerrar_BaseDato();                              //FUNCIÓN PARA CERRAR LA BASE DE DATOS LOCAL.
-    void AlertaHongo();
+    void AlertaHongo();                                  //FUNCIÓN PARA HACER EL CONTROL DE LAS ALERTAS.
 
 private slots:
     void on_line_TEMP_textEdited(const QString &arg1);

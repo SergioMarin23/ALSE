@@ -29,7 +29,7 @@ class Humedad: public Sensor{
 public:
     float ActualizarDato(){             //FUNCIÓN QUE EMULA EL ENVÍO DE LOS DATOS REFERENTES AL SENSOR DE HUMEDAD
         srand(time(NULL));
-        float h = ( rand() % 101 ) / 10. ;
+        float h = ( rand() % 1001 ) / 10. ;
         return h;
     }
 };
@@ -39,7 +39,7 @@ class Velocidad_viento: public Sensor{
 public:
     float ActualizarDato(){         //FUNCIÓN QUE EMULA EL ENVÍO DE LOS DATOS REFERENTES AL SENSOR DE VELOCIDAD DEL VIENTO
         srand(time(NULL));
-        float v = ( rand() % 41 ) / 10. ;
+        float v = ( rand() % 410 ) / 10. ;
         return v;
     }
 };
